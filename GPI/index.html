@@ -18,6 +18,67 @@
             padding: 0;
             margin: 0;
         }
+			.gpi-legend {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+  z-index: 9999;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 12px 14px;
+  border-radius: 6px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.35);
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.25;
+  width: 270px;
+}
+
+.gpi-legend h3 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+}
+
+.gpi-ramp {
+  height: 18px;
+  width: 100%;
+  border: 1px solid #666;
+  background: linear-gradient(
+    to right,
+    #fff5f0 0%,
+    #fee0d2 13%,
+    #fcbba1 26%,
+    #fc9272 39%,
+    #fb6a4a 52%,
+    #ef3b2c 65%,
+    #cb181d 78%,
+    #a50f15 90%,
+    #67000d 100%
+  );
+}
+
+.gpi-legend .legend-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.gpi-classes {
+  margin-top: 10px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.gpi-classes td {
+  padding: 3px 4px;
+  vertical-align: top;
+}
+
+.gpi-note {
+  margin-top: 8px;
+  color: #444;
+  font-size: 11px;
+}
         </style>
         <title></title>
     </head>
@@ -107,6 +168,12 @@
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
+			L.control.scale({
+    position: 'bottomleft',
+    metric: true,
+    imperial: false,
+    maxWidth: 200
+}).addTo(map);
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -220,9 +287,22 @@
             onEachFeature: pop_Riverland_biosphere_2,
             style: style_Riverland_biosphere_2_0,
         });
-        bounds_group.addLayer(layer_Riverland_biosphere_2);
-        map.addLayer(layer_Riverland_biosphere_2);
-        setBounds();
+bounds_group.addLayer(layer_Riverland_biosphere_2);
+map.addLayer(layer_Riverland_biosphere_2);
+
+var overlaysTree = [
+    {label: "Riverland Biosphere boundary", layer: layer_Riverland_biosphere_2},
+    {label: "Mapped grazing pressure index", layer: layer_Mapped_grazing_pressure_index_1},
+    {label: "ESRI World Imagery", layer: layer_ESRIworldimagery_0}
+];
+
+var lay = L.control.layers.tree(null, overlaysTree, {
+    collapsed: false
+});
+
+lay.addTo(map);
+
+setBounds();
         var i = 0;
         layer_Riverland_biosphere_2.eachLayer(function(layer) {
             var context = {
@@ -251,6 +331,40 @@
         map.on("layerremove", function(){
             resetLabels([layer_Riverland_biosphere_2]);
         });
-        </script>        
+        </script>      
+		<div class="gpi-legend">
+  <h3>Grazing pressure index</h3>
+
+  <div class="gpi-ramp"></div>
+
+  <div class="legend-labels">
+    <span>0</span>
+    <span>0.24</span>
+    <span>0.47</span>
+  </div>
+
+  <table class="gpi-classes">
+    <tr>
+      <td><strong>Class 1</strong></td>
+      <td>Collapsed / highest inferred grazing pressure<br>GPI ≥ 0.239</td>
+    </tr>
+    <tr>
+      <td><strong>Class 2</strong></td>
+      <td>Highly modified<br>0.080 to &lt; 0.239</td>
+    </tr>
+    <tr>
+      <td><strong>Class 3</strong></td>
+      <td>Modified<br>0.004 to &lt; 0.080</td>
+    </tr>
+    <tr>
+      <td><strong>Class 4</strong></td>
+      <td>Reference / lowest inferred grazing pressure<br>&lt; 0.004</td>
+    </tr>
+  </table>
+
+  <div class="gpi-note">
+    Darker red indicates greater inferred grazing pressure associated with persistent or nearby artificial water points.
+  </div>
+</div>
     </body>
 </html>
