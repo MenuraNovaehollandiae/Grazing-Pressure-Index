@@ -56,11 +56,16 @@
   );
 }
 
-.gpi-legend .legend-labels {
+.legend-labels,
+.legend-values {
   display: flex;
   justify-content: space-between;
   margin-top: 4px;
   font-size: 11px;
+}
+
+.legend-values {
+  color: #555;
 }
 
 .gpi-note {
@@ -279,17 +284,18 @@
 bounds_group.addLayer(layer_Riverland_biosphere_2);
 map.addLayer(layer_Riverland_biosphere_2);
 
-var overlaysTree = [
-    {label: "Riverland Biosphere boundary", layer: layer_Riverland_biosphere_2},
-    {label: "Mapped grazing pressure index", layer: layer_Mapped_grazing_pressure_index_1},
-    {label: "ESRI World Imagery", layer: layer_ESRIworldimagery_0}
-];
+var baseMaps = {
+    "ESRI World Imagery": layer_ESRIworldimagery_0
+};
 
-var lay = L.control.layers.tree(null, overlaysTree, {
+var overlayMaps = {
+    "Mapped grazing pressure index": layer_Mapped_grazing_pressure_index_1,
+    "Riverland Biosphere boundary": layer_Riverland_biosphere_2
+};
+
+L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
-});
-
-lay.addTo(map);
+}).addTo(map);
 
 setBounds();
         var i = 0;
