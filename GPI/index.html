@@ -118,16 +118,21 @@
       font-size: 11px;
     }
 
+    /* Plain polygon label: no white box, no border */
     .bioregion-label {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(80,80,80,0.45);
-      border-radius: 4px;
+      background: transparent;
+      border: none;
       box-shadow: none;
-      color: #222;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      font-weight: bold;
-      padding: 2px 5px;
+      color: #323232;
+      font-family: "Open Sans", Arial, sans-serif;
+      font-size: 10pt;
+      font-weight: normal;
+      padding: 0;
+      text-shadow:
+        -1px -1px 1px white,
+         1px -1px 1px white,
+        -1px  1px 1px white,
+         1px  1px 1px white;
     }
 
     .bioregion-label::before {
@@ -166,13 +171,6 @@
       ' &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>' +
       ' &middot; <a href="https://qgis.org">QGIS</a>'
     );
-
-    var autolinker = new Autolinker({
-      truncate: {
-        length: 30,
-        location: 'smart'
-      }
-    });
 
     L.control.zoom({
       position: 'topleft'
@@ -235,7 +233,7 @@
     bounds_group.addLayer(layer_Mapped_grazing_pressure_index_1);
     map.addLayer(layer_Mapped_grazing_pressure_index_1);
 
-    /* Riverland Biosphere boundary */
+    /* Riverland Biosphere boundary and labels */
     function style_Riverland_biosphere_2_0() {
       return {
         pane: 'pane_Riverland_biosphere_2',
@@ -244,29 +242,12 @@
         dashArray: '5.0,1.0',
         lineCap: 'butt',
         lineJoin: 'miter',
-        weight: 1.2,
+        weight: 1.0,
         fill: true,
         fillOpacity: 0,
         fillColor: 'rgba(190,207,80,0.0)',
-        interactive: true
+        interactive: false
       };
-    }
-
-    function pop_Riverland_biosphere_2(feature, layer) {
-      var locName = feature.properties['LOC_NAME'] !== null ? String(feature.properties['LOC_NAME']) : '';
-      var locClass = feature.properties['LOC_CLASS'] !== null ? String(feature.properties['LOC_CLASS']) : '';
-      var reserveType = feature.properties['RESTYPE'] !== null ? String(feature.properties['RESTYPE']) : '';
-
-      var popupContent =
-        '<table>' +
-          '<tr><td><strong>Name</strong></td><td>' + autolinker.link(locName) + '</td></tr>' +
-          '<tr><td><strong>Class</strong></td><td>' + autolinker.link(locClass) + '</td></tr>' +
-          '<tr><td><strong>Reserve type</strong></td><td>' + autolinker.link(reserveType) + '</td></tr>' +
-        '</table>';
-
-      layer.bindPopup(popupContent, {
-        maxHeight: 400
-      });
     }
 
     map.createPane('pane_Riverland_biosphere_2');
@@ -275,14 +256,12 @@
 
     var layer_Riverland_biosphere_2 = new L.geoJson(json_Riverland_biosphere_2, {
       attribution: '',
-      interactive: true,
+      interactive: false,
       dataVar: 'json_Riverland_biosphere_2',
       layerName: 'layer_Riverland_biosphere_2',
       pane: 'pane_Riverland_biosphere_2',
       style: style_Riverland_biosphere_2_0,
       onEachFeature: function(feature, layer) {
-        pop_Riverland_biosphere_2(feature, layer);
-
         if (feature.properties && feature.properties['LOC_NAME']) {
           layer.bindTooltip(
             String(feature.properties['LOC_NAME']),
@@ -290,7 +269,8 @@
               permanent: true,
               direction: 'center',
               className: 'bioregion-label',
-              opacity: 1
+              opacity: 1,
+              interactive: false
             }
           );
         }
