@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>About this map</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 950px;
+      margin: 60px auto;
+      padding: 0 24px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin-top: 38px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      margin-top: 28px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 18px 0;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f2f2f2;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    .button {
+      display: inline-block;
+      margin: 12px 12px 24px 0;
+      padding: 12px 18px;
+      background: #0066cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background: #004f99;
+    }
+
+    .note {
+      margin-top: 28px;
+      font-size: 0.95em;
+      color: #444;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>About this map</h1>
+
+  <a class="button" href="index.html">← Back to main page</a>
+  <a class="button" href="gpi/">Explore the grazing pressure map</a>
+
+  <h2>Living Landscape grazing pressure index map</h2>
+
+  <p>
+    This repository contains an interactive web map showing a grazing pressure
+    index across the Living Landscape study region in the South Australian mallee.
+  </p>
+
+  <p>
+    The map represents inferred relative livestock grazing pressure associated
+    with artificial water points. It was developed from pastoral dam locations,
+    remote-sensing estimates of water persistence, dam decommissioning information,
+    and a distance-decay model of grazing pressure away from water.
+  </p>
+
+  <p>
+    Higher values indicate areas expected to experience greater grazing pressure
+    because they are closer to more persistent pastoral water sources. Lower values
+    indicate areas farther from persistent water points, or areas associated with
+    decommissioned or less reliable dams.
+  </p>
+
+  <h2>Overview</h2>
+
+  <p>
+    The grazing pressure index was developed to support spatial mapping of
+    understorey condition across the Living Landscape case study area. Artificial
+    water points can concentrate livestock and herbivore activity in semi-arid
+    rangelands, producing gradients of vegetation modification that generally
+    decline with distance from water. This map converts pastoral dam persistence
+    into a continuous grazing pressure surface, then classifies that surface into
+    ordinal understorey condition classes.
+  </p>
+
+  <p>
+    The final map is intended as a broad-scale decision-support product for
+    visualising relative grazing pressure and its likely influence on mallee
+    understorey condition. It should be interpreted alongside field validation,
+    local ecological knowledge, management history and the assumptions of the
+    grazing-pressure model.
+  </p>
+
+  <h2>Study region</h2>
+
+  <p>
+    The map covers the Living Landscape case study region in the South Australian
+    mallee, including the Calperum landscape where related State-and-Transition
+    Model and habitat-suitability work was undertaken.
+  </p>
+
+  <h2>Methods summary</h2>
+
+  <h3>Pastoral dam data</h3>
+
+  <p>
+    Pastoral dam data were sourced from Gillespie (2025), which provided an
+    inventory of dams in the study area and an assessment of their capacity to
+    retain water. These data were originally derived from Sentinel-2 satellite
+    imagery using the Normalised Difference Water Index, or NDWI, to estimate
+    the persistence of standing water across a 10-year period.
+  </p>
+
+  <p>
+    The dataset included both active dams and dams that had been decommissioned
+    before or during the study period.
+  </p>
+
+  <h3>Dam-specific grazing pressure index</h3>
+
+  <p>
+    A dam-specific grazing pressure index, or GPI, was calculated by combining
+    water availability with the expected recovery of vegetation following dam
+    decommissioning. Water availability was calculated as the proportion of
+    study-period days in which standing water was detected:
+  </p>
+
+  <p>
+    <code>water availability = days with water / total study-period days</code>
+  </p>
+
+  <p>
+    For decommissioned dams, this value was reduced using a recovery multiplier
+    based on the number of years since closure and an assumed 30-year recovery
+    timeframe:
+  </p>
+
+  <p>
+    <code>GPI = (days with water / total study-period days) × (1 − years since decommissioning / 30)</code>
+  </p>
+
+  <p>
+    A 30-year recovery period was adopted as a pragmatic benchmark for substantial
+    understorey recovery after dam decommissioning. This recognises that some
+    recovery in semi-arid rangelands can occur within 5–10 years, but that more
+    complete structural and compositional recovery may take several decades.
+    For dams decommissioned before 1999 where the closure year was unavailable,
+    1995 was assigned as the decommissioning year.
+  </p>
+
+  <h3>Distance-decay surface</h3>
+
+  <p>
+    For each dam, a distance-weighted grazing pressure surface was created by
+    multiplying the dam-specific GPI by an exponential decay function of distance.
+    The decay function was scaled so that the grazing pressure associated with a
+    permanently watered dam declined from 1 at the dam to approximately 0.01 at
+    8 km from the dam.
+  </p>
+
+  <p>
+    Less persistent dams, or dams that had been decommissioned, had proportionally
+    lower values across the full distance gradient. Dam-specific decay rasters
+    were then combined using a cell-wise maximum, so that each pixel was assigned
+    the highest grazing-pressure value exerted by any dam.
+  </p>
+
+  <h3>Threshold calibration and understorey condition classes</h3>
+
+  <p>
+    In the study area, none of the pastoral dams were estimated to hold permanent
+    water. To avoid assuming grazing impacts equivalent to a permanently watered
+    artificial water point, thresholds were calibrated using the top quartile of
+    dams with the highest and most persistent water availability.
+  </p>
+
+  <p>
+    Mean GPI values were extracted from 40 m-wide annuli at 100 m, 2 km and 6 km
+    from each selected dam centroid. These distances were used to represent a
+    gradient from high grazing pressure near water points through to lower grazing
+    pressure farther from water. Mean values across the top quartile dams were
+    then used as quantitative thresholds for reclassifying the continuous GPI
+    surface.
+  </p>
+
+  <p>
+    The final continuous GPI raster was pre-processed to fill small one-pixel gaps
+    using a 3 × 3 mean filter. Larger gaps were assigned a value of zero. The
+    continuous surface was then reclassified into four ordinal understorey
+    condition classes:
+  </p>
+
+  <table>
+    <tr>
+      <th>Understorey class</th>
+      <th>Condition</th>
+      <th>GPI threshold</th>
+      <th>Interpretation</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Collapsed</td>
+      <td>≥ 0.239</td>
+      <td>Highest inferred grazing pressure, typically close to the most persistent pastoral water points.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Highly modified</td>
+      <td>0.080 to &lt; 0.239</td>
+      <td>High inferred grazing pressure associated with persistent or nearby artificial water sources.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Modified</td>
+      <td>0.004 to &lt; 0.080</td>
+      <td>Moderate to low inferred grazing pressure.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Reference</td>
+      <td>&lt; 0.004</td>
+      <td>Lowest
