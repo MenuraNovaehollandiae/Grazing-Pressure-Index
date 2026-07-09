@@ -63,17 +63,6 @@
   font-size: 11px;
 }
 
-.gpi-classes {
-  margin-top: 10px;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.gpi-classes td {
-  padding: 3px 4px;
-  vertical-align: top;
-}
-
 .gpi-note {
   margin-top: 8px;
   color: #444;
@@ -338,29 +327,16 @@ setBounds();
   <div class="gpi-ramp"></div>
 
   <div class="legend-labels">
+    <span>Low</span>
+    <span>Moderate</span>
+    <span>High</span>
+  </div>
+
+  <div class="legend-values">
     <span>0</span>
     <span>0.24</span>
     <span>0.47</span>
   </div>
-
-  <table class="gpi-classes">
-    <tr>
-      <td><strong>Class 1</strong></td>
-      <td>Collapsed / highest inferred grazing pressure<br>GPI ≥ 0.239</td>
-    </tr>
-    <tr>
-      <td><strong>Class 2</strong></td>
-      <td>Highly modified<br>0.080 to &lt; 0.239</td>
-    </tr>
-    <tr>
-      <td><strong>Class 3</strong></td>
-      <td>Modified<br>0.004 to &lt; 0.080</td>
-    </tr>
-    <tr>
-      <td><strong>Class 4</strong></td>
-      <td>Reference / lowest inferred grazing pressure<br>&lt; 0.004</td>
-    </tr>
-  </table>
 
   <div class="gpi-note">
     Darker red indicates greater inferred grazing pressure associated with persistent or nearby artificial water points.
