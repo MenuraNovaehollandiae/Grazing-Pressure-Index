@@ -18,7 +18,7 @@
             padding: 0;
             margin: 0;
         }
-			.gpi-legend {
+		.gpi-legend {
   position: absolute;
   bottom: 30px;
   right: 20px;
@@ -36,6 +36,12 @@
 .gpi-legend h3 {
   margin: 0 0 8px 0;
   font-size: 15px;
+}
+
+.gpi-scale {
+  position: relative;
+  width: 100%;
+  height: 48px;
 }
 
 .gpi-ramp {
@@ -56,24 +62,53 @@
   );
 }
 
-.legend-labels,
-.legend-values {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
+.gpi-label {
+  position: absolute;
+  top: 23px;
   font-size: 11px;
+  color: #444;
+  white-space: nowrap;
 }
 
-.legend-values {
-  color: #555;
+.gpi-label.low {
+  left: 0;
+}
+
+.gpi-label.mid {
+  left: 51%;
+  transform: translateX(-50%);
+}
+
+.gpi-label.high {
+  right: 0;
+}
+
+.gpi-text-label {
+  position: absolute;
+  top: 36px;
+  font-size: 11px;
+  color: #444;
+  white-space: nowrap;
+}
+
+.gpi-text-label.low {
+  left: 0;
+}
+
+.gpi-text-label.mid {
+  left: 51%;
+  transform: translateX(-50%);
+}
+
+.gpi-text-label.high {
+  right: 0;
 }
 
 .gpi-note {
   margin-top: 8px;
   color: #444;
   font-size: 11px;
-}
-        </style>
+}        </style>
         <title></title>
     </head>
     <body>
