@@ -1,34 +1,14 @@
 cff-version: 1.2.0
-message: "If you use these maps, please cite this archived repository."
-
-title: "Safeguarding mallee birds — Grazing pressure index map"
-type: dataset
-
+message: "If you use this software, please cite it as below."
 authors:
-
-* family-names: Maisey
+- family-names: "Maisey"
   given-names: "Alex C."
-* family-names: Radford
+  orcid: "https://orcid.org/0000-0002-6827-7976"
+- family-names: "Radford"
   given-names: "James Q."
-
-abstract: >-
-Interactive habitat suitability maps for the mallee bird community,
-linking expert-elicited state-and-transition models of vegetation
-condition to species- and community-level habitat suitability scores.
-
-keywords:
-
-* mallee birds
-* habitat suitability
-* state-and-transition models
-* conservation planning
-* biodiversity
-* threatened ecological community
-* expert elicitation
-
-repository-code: "https://github.com/MenuraNovaehollandiae/Safeguarding-mallee-birds---habitat-suitability-maps"
-url: "https://menuranovaehollandiae.github.io/Safeguarding-mallee-birds---habitat-suitability-maps/"
-
-license: CC-BY-4.0
+  orcid: "https://orcid.org/0000-0002-6014-0019"
+title: "Safeguarding Mallee Birds - Grazing Pressure Index Map"
 version: 1.0.0
-date-released: "2026-07-11"
+doi: 
+date-released: 2026-07-11
+url: "https://github.com/MenuraNovaehollandiae/Grazing-Pressure-Index"
